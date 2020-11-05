@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 # Application definition
+ENVIRONMENT = os.environ.get('ENVIRONMENT', 'local')
 
 INSTALLED_APPS = [
     # 1st party apps
@@ -84,12 +85,25 @@ WSGI_APPLICATION = 'bulletin.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if ENVIRONMENT == 'local':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('DATABASE_NAME', 'bulletin'),
+            'USER': os.environ.get('DATABASE_USER'),
+            'PASSWORD': os.environ.get('DATABASE_PASS'),
+            'HOST': os.environ.get('DATABASE_HOST'),
+            'PORT': os.environ.get('DATABASE_PORT', 5432)
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -138,6 +152,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
 # Django Rest Framework Swagger UI

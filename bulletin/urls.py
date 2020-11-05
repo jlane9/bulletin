@@ -14,6 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path, re_path
 from drf_yasg import openapi
@@ -50,6 +52,7 @@ urlpatterns = [
     path('api-token-auth/', obtain_jwt_token, name='jwt-auth'),
     path('api-token-refresh/', refresh_jwt_token, name='jwt-refresh'),
     path('docs/', schema_view.with_ui('redoc', cache_timeout=0), name='redocs'),
+    path('health/', include('health_check.urls', namespace='health_check')),
     re_path(r'swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='swagger_ui')
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
