@@ -16,6 +16,13 @@ Instructions
 5. Run server `python3 manage.py runserver 0.0.0.0:8080`
 6. Navigate to http://localhost:8080/admin
 
+**Scripts**
+
+1. Install project `script/setup`
+2. Create your user `python3 manage.py createsuperuser`
+3. Run project `script/server`
+4. Navigate to http://localhost:8080/admin
+
 **Docker**
 
 1. Run docker compose `docker-compose up`
