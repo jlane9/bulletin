@@ -49,7 +49,7 @@ Acceptance Criteria
     * Should be Bearer Auth ✓
 5. Deployment
     * The app does not have to be deployed however there should be instructions on how to run it locally ✓
-    * While the app doesn't need to be deployed please design it as if you were going to deploy it and be prepared to describe how you would deploy it to production including CI/CD, Cloud Provider and services and why you would choose those.
+    * While the app doesn't need to be deployed please design it as if you were going to deploy it and be prepared to describe how you would deploy it to production including CI/CD, Cloud Provider and services and why you would choose those. ✓
 6. UI
     * Please create a basic UI with the following
         * Users can login & logout
@@ -62,21 +62,30 @@ Acceptance Criteria
 Technologies
 ------------
 
-Language: Python
-Framework: Django
-Database: Postgres
-Cache: Redis
-UI: React (Ionic)
-Local Deployment: Docker
-Cloud Service: AWS Lambda (with serverless)
-CI/CD: Travis CI
-Testing: Pytest
+- Language: Python
+- Framework: Django
+- Database: Postgres
+- Cache: Redis
+- UI: React (Ionic)
+- Local Deployment: Docker
+- Cloud Service: AWS Lambda (with serverless)
+- CI/CD: Travis CI
+- Testing: Pytest
 
 
 Explanation
 -----------
 
+I chose Python and the framework Django to demonstrate how easy, readable and production-ready Django can be. Although,
+Flask would generally work well with an example such as this, the sheer amount of "best practices" that Django can
+provide with little effort made it the clear winner. And once the system is setup, modifying or extending capabilities
+can be achieved in significantly less time than a Flask-style project would take to produce while continuing to adhere
+to those "best practices". The database I chose was Postgres because it had the best support for Django.
 
+For deployments, I chose to go with AWS Lambda because it is cheap (free 1 million requests per month) and it supports
+auto-scaling automatically. Lambda can be cost-ineffective for resource intensive services vs. ECS/EC2 but is great
+for testing and the service can easily move over to ECS/EC2 once there is a need because we've already built the 
+Docker file.
 
 Future Enhancements
 -------------------

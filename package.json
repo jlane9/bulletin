@@ -1,0 +1,16 @@
+{
+  "name": "bulletin",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "serverless-python-requirements": "^5.1.0",
+    "serverless-wsgi": "^1.7.6"
+  },
+  "dependencies": {
+    "serverless": "^1.58.0"
+  },
+  "engines": {
+    "node": ">= 8.0.0",
+    "npm": ">= 6.0.0"
+  }
+}
