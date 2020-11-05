@@ -32,6 +32,22 @@ Instructions
 3. Navigate to http://localhost:8080/admin
 
 
+**Known Installation Issues**
+
+If you experience an issue while installing on a Mac and the error message contains the following, 
+`pg_config is required to build psycopg2 from source`, try installing postgres
+
+```
+# Install Brew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+
+# Install PostgreSQL
+brew install postgresql
+```
+
+For Ubuntu or similar run, `apt-get install python3-psycopg2`
+
+
 Acceptance Criteria
 -------------------
 

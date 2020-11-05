@@ -9,7 +9,7 @@ services:
       - POSTGRES_PASSWORD=postgres
   app:
     build: .
-    command: gunicorn3 --config /deploy/app/gunicorn_config.py bulletin.wsgi:application
+    command: gunicorn --config /deploy/app/gunicorn_config.py bulletin.wsgi:application
     depends_on:
       - db
     environment:
