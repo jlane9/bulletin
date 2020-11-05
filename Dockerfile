@@ -9,7 +9,7 @@ MAINTAINER John Lane <john.lane93@gmail.com>
 ENV DEBIAN_FRONTEND noninteractive
 ENV PYTHONUNBUFFERED=1
 
-RUN apt-get update && apt-get install -y libpq-dev python3-psycopg2 gunicorn \
+RUN apt-get update && apt-get install -y libpq-dev gunicorn \
     && rm -rf /var/lib/apt/lists/*
 
 # Setup django application

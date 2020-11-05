@@ -41,11 +41,9 @@ INSTALLED_APPS = [
     # 3rd party apps
     'django_extensions',
     'django_filters',
-    'drf_yasg',
     'health_check',
     'health_check.db',
     'health_check.cache',
-    'health_check.storage',
     'health_check.contrib.psutil',
     'rest_framework',
     # Project apps
@@ -172,3 +170,14 @@ SWAGGER_SETTINGS = {
     'LOGIN_URL': '/admin/login',
     'LOGOUT_URL': '/admin/logout'
 }
+
+
+if ENVIRONMENT == 'production':
+
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    AWS_STORAGE_BUCKET_NAME = 'bulletin-staticfiles'
+
+    CSRF_COOKIE_SECURE = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True

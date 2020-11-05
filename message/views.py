@@ -1,6 +1,7 @@
-from django.db.models import Max
+from django.db.models import Max, QuerySet
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
+from rest_framework.request import Request
 from rest_framework.response import Response
 from message import models, serializers
 
@@ -9,7 +10,7 @@ class MessageViewSet(viewsets.ModelViewSet):
     """Message REST view
     """
 
-    queryset = models.Message.objects.filter(active=True)
+    queryset: QuerySet = models.Message.objects.filter(active=True)
     serializer_class = serializers.MessageSerializer
 
 
@@ -17,7 +18,7 @@ class TopicViewSet(viewsets.ModelViewSet):
     """Topic REST view
     """
 
-    queryset = models.Topic.objects.filter(active=True).annotate(
+    queryset: QuerySet = models.Topic.objects.filter(active=True).annotate(
         most_recent=Max('message__created')
     ).order_by('-most_recent')
     serializer_class = serializers.TopicSerializer
@@ -27,8 +28,8 @@ class TopicViewSet(viewsets.ModelViewSet):
         """Return messages for the specified topic
         """
 
-        topic = self.get_object()
-        messages = topic.message_set.all()
+        topic: models.Topic = self.get_object()
+        messages: QuerySet = topic.message_set.all()
 
         page = self.paginate_queryset(messages)
 
@@ -40,11 +41,11 @@ class TopicViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     @action(detail=True, methods=['POST'], serializer_class=serializers.MessageSerializer)
-    def new_message(self, request, *_args, **_kwargs) -> Response:
+    def new_message(self, request: Request, *_args, **_kwargs) -> Response:
         """Create new message for topic
         """
 
-        topic = self.get_object()
+        topic: models.Topic = self.get_object()
         serializer = self.get_serializer(data={**request.data, 'topic': topic.id})
 
         if serializer.is_valid():
@@ -53,4 +54,3 @@ class TopicViewSet(viewsets.ModelViewSet):
 
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-

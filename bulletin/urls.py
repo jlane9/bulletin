@@ -17,28 +17,15 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, path, re_path
-from drf_yasg import openapi
-from drf_yasg.views import get_schema_view
-from rest_framework import permissions, routers
+from django.views.generic.base import RedirectView
+from django.urls import include, path, reverse_lazy
+from rest_framework import routers
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
-from bulletin import __author__, __email__, __version__, views
+from bulletin import views
 from message import views as message_views
 
 
 admin.site.site_header = 'Bulletin Board Admin'
-
-# pylint: disable=invalid-name
-schema_view = get_schema_view(
-    openapi.Info(
-        title="Bulletin API",
-        default_version='v' + __version__,
-        description="Chat service API",
-        contact=openapi.Contact(name=__author__, email=__email__)
-    ),
-    public=True,
-    permission_classes=(permissions.AllowAny,),
-)
 
 router = routers.DefaultRouter()
 router.register('users', views.UserViewSet)
@@ -51,8 +38,6 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api-token-auth/', obtain_jwt_token, name='jwt-auth'),
     path('api-token-refresh/', refresh_jwt_token, name='jwt-refresh'),
-    path('docs/', schema_view.with_ui('redoc', cache_timeout=0), name='redocs'),
     path('health/', include('health_check.urls', namespace='health_check')),
-    re_path(r'swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='swagger_ui')
+    path('', RedirectView.as_view(url=reverse_lazy('admin:index')))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
