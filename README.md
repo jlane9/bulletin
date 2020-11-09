@@ -81,7 +81,6 @@ Technologies
 - Language: Python
 - Framework: Django
 - Database: Postgres
-- Cache: Redis
 - UI: React (Ionic)
 - Local Deployment: Docker
 - Cloud Service: AWS Lambda (with serverless)
