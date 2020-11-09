@@ -1,4 +1,6 @@
-from django.db.models import Max, QuerySet
+from datetime import datetime
+from django.db.models import Max, QuerySet, Value
+from django.db.models.functions import Coalesce
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.request import Request
@@ -19,7 +21,7 @@ class TopicViewSet(viewsets.ModelViewSet):
     """
 
     queryset: QuerySet = models.Topic.objects.filter(active=True).annotate(
-        most_recent=Max('message__created')
+        most_recent=Coalesce(Max('message__created'), Value(datetime.utcfromtimestamp(0)))
     ).order_by('-most_recent')
     serializer_class = serializers.TopicSerializer
 
