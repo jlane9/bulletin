@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import datetime
 import os
 from pathlib import Path
 
@@ -169,6 +170,10 @@ SWAGGER_SETTINGS = {
     },
     'LOGIN_URL': '/admin/login',
     'LOGOUT_URL': '/admin/logout'
+}
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=14),
 }
 
 
